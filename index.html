@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>流体マスク遷移 — Animation Studies</title>
+  <meta name="description" content="波打つ液体カーテンが立ち上がって画面を覆い、中身を差し替えて引く流体マスク遷移。Resn / Codrops Gallery 風。" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=JetBrains+Mono:wght@400;500;700&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+
+<header class="site">
+  <a class="back" href="../">
+    <span class="arrow">←</span>
+    <span>ANIMATION · INDEX</span>
+  </a>
+  <span class="cell-marker">FLUID MASK</span>
+</header>
+
+<main>
+
+  <!-- ─── The Reusable Component（ギャラリー） ─── -->
+  <div class="fluid" data-fluid-mask>
+
+    <div class="fm-stage" data-fm-stage>
+
+      <section class="fm-panel fm-p1 is-active" data-fm-name="Tidal Drift" style="--c:#1b5e9b">
+        <span class="fm-art"></span>
+        <div class="fm-cap">
+          <span class="fm-cap-no">01</span>
+          <h2 class="fm-title">Tidal Drift</h2>
+          <span class="fm-meta">Photography · 海岸線リサーチ · 2025</span>
+          <p class="fm-desc">3 週間の沿岸踏査から選んだ 12 カット。引き波の数秒だけ現れる砂の模様を追った series。</p>
+        </div>
+      </section>
+
+      <section class="fm-panel fm-p2" data-fm-name="Ember Fields" style="--c:#ff3b5c">
+        <span class="fm-art">
+          <span class="fm-ember-sun"></span>
+          <span class="fm-ember-rays"></span>
+          <span class="fm-ember-grain"></span>
+        </span>
+        <div class="fm-cap">
+          <span class="fm-cap-no">02</span>
+          <h2 class="fm-title">Ember Fields</h2>
+          <span class="fm-meta">Editorial · 秋季キャンペーン · 2025</span>
+          <p class="fm-desc">夕暮れの草地を舞台にしたファッション・エディトリアル。逆光と粒状感で温度を作った 8 ページ。</p>
+        </div>
+      </section>
+
+      <section class="fm-panel fm-p3" data-fm-name="Moss Protocol" style="--c:#1f8a5a">
+        <span class="fm-art"></span>
+        <canvas class="fm-canvas" data-fm-moss aria-hidden="true"></canvas>
+        <div class="fm-cap">
+          <span class="fm-cap-no">03</span>
+          <h2 class="fm-title">Moss Protocol</h2>
+          <span class="fm-meta">Installation · ジェネラティブ · 2024</span>
+          <p class="fm-desc">苔の生長データを音と粒子に変換した常設インスタレーション。来場者の距離で密度が変わる。</p>
+        </div>
+      </section>
+
+      <section class="fm-panel fm-p4" data-fm-name="Noct Suite" style="--c:#1a1a22">
+        <span class="fm-art"></span>
+        <svg class="fm-sky" viewBox="0 0 1000 400" preserveAspectRatio="xMidYMax meet" aria-hidden="true">
+          <path class="fm-sky-line" d="M0 400 L0 250 L60 250 L60 185 L130 185 L130 285 L200 285 L200 150 L245 150 L245 225 L320 225 L320 105 L362 105 L362 265 L445 265 L445 205 L525 205 L525 130 L585 130 L585 300 L665 300 L665 165 L725 165 L725 245 L820 245 L820 95 L862 95 L862 255 L945 255 L945 205 L1000 205 L1000 400 Z"/>
+        </svg>
+        <div class="fm-cap">
+          <span class="fm-cap-no">04</span>
+          <h2 class="fm-title">Noct Suite</h2>
+          <span class="fm-meta">Motion · タイトルシーケンス · 2024</span>
+          <p class="fm-desc">深夜帯ドラマのオープニング。光の筋だけで都市の輪郭を描く 45 秒のモーション。</p>
+        </div>
+      </section>
+
+      <!-- 液体カーテン -->
+      <svg class="fm-veil" data-fm-veil viewBox="0 0 1000 600" preserveAspectRatio="none" aria-hidden="true">
+        <path data-fm-path d="" />
+      </svg>
+    </div>
+
+    <div class="fm-ui">
+      <button class="fm-btn" data-fm-prev aria-label="前の作品">←</button>
+      <div class="fm-thumbs" data-fm-thumbs></div>
+      <button class="fm-btn" data-fm-next aria-label="次の作品">→</button>
+    </div>
+    <div class="fm-foot">
+      <span class="fm-count" data-fm-count>01 / 04</span>
+      <span class="fm-hint">← → / サムネイル で作品を切り替え</span>
+    </div>
+  </div>
+
+  <!-- ─── Usage notes ─── -->
+  <section class="notes">
+    <div class="shou"><h2>使い方</h2><span class="no">— USAGE</span></div>
+    <div class="notes-grid">
+      <div class="note">
+        <span class="note-no">01</span>
+        <h3>2 ファイルをコピー</h3>
+        <p><code>style.css</code> / <code>script.js</code> を移植先へ。外部依存ゼロ、WebGL なし。</p>
+      </div>
+      <div class="note">
+        <span class="note-no">02</span>
+        <h3>マークアップ</h3>
+        <p><code>.fluid[data-fluid-mask]</code> に、パネル群（<code>.fm-panel[data-fm-name]</code>、色は <code>--c</code>）と液体カーテン <code>&lt;svg data-fm-veil&gt;&lt;path data-fm-path&gt;</code> を置く。</p>
+      </div>
+      <div class="note">
+        <span class="note-no">03</span>
+        <h3>覆う → 差し替え → 引く</h3>
+        <p>波打つ path が下から立ち上がり画面を覆う（覆い色＝次パネル色）。覆い切った瞬間にパネルを差し替え、path が引いて新パネルが現れる。</p>
+      </div>
+    </div>
+
+    <h3 class="sub-h">カスタマイズ可能な CSS 変数</h3>
+    <div class="vars">
+      <div class="var"><code>--fm-stage-h</code><span>ステージ高さ</span><em>min(78vh,620px)</em></div>
+    </div>
+    <h3 class="sub-h">JS 定数（<code>script.js</code> 冒頭）</h3>
+    <div class="vars">
+      <div class="var"><code>COVER / REVEAL</code><span>覆う / 引く 各フェーズの時間(ms)</span><em>640 / 640</em></div>
+      <div class="var"><code>AMP</code><span>波の振幅（viewBox 600 基準）</span><em>46</em></div>
+      <div class="var"><code>WOBBLE</code><span>縁の揺らぎ速度</span><em>0.18</em></div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <span>© 2026 ANIMATION DESIGN STUDY</span>
+  <a href="../">← INDEX</a>
+</footer>
+
+<script src="./script.js"></script>
+</body>
+</html>
